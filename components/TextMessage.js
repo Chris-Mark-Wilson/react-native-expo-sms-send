@@ -5,7 +5,7 @@ export const text = (params) => {
   .then((isAvailable) => {
     if (isAvailable) {
       // do your SMS stuff here
-      return SMS.sendSMSAsync(["+447597852695"], "My sample HelloWorld message")
+      return SMS.sendSMSAsync(["+447597852695"], "https://www.google.com/maps/@52.5738339,-0.2561723,16z?entry=ttuu")
     }else{
         console.log("not available")
     }
