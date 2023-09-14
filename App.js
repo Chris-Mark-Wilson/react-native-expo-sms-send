@@ -22,6 +22,17 @@ setIsLoading(false)
   })
 },[lat,long])
 
+useEffect(()=>{
+  setTimeout(()=>{
+    getLocation()
+  .then(({latitude,longitude})=>{
+    console.log(latitude,longitude,"lat long")
+    setLat(latitude)
+    setLong(longitude)
+  },10000)
+  })
+})
+
 
 
 return(isLoading?<View style={styles.container}>
