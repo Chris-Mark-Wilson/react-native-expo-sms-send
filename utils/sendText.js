@@ -2,6 +2,7 @@ import * as SMS from "expo-sms";
 
 const text = () => {
     const numbersArray=["+447597852695"]
+    console.log("pressed send")
     return SMS.isAvailableAsync()
     .then((isAvailable) => {
       if (isAvailable) {

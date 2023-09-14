@@ -4,12 +4,14 @@ import { StyleSheet, Text, View,Button } from 'react-native';
 import { getLocation } from './utils/getLocation';
 import { useEffect, useState } from 'react';
 import {text} from './utils/sendText'
+import { Marker } from 'react-native-maps';
 export default function App() {
 
   const[lat,setLat]=useState(null)
   const[long,setLong]=useState(null)
   let regionObject={};
   const[isLoading,setIsLoading]=useState(true)
+  const[pos,setPos]=useState({latitude: 52.57559667266577, longitude: -0.25841876864433294})
 
 useEffect(()=>{
   setIsLoading(true)
@@ -33,7 +35,10 @@ useEffect(()=>{
   })
 })
 
-
+const handlePress=(e)=>{
+console.log(e.nativeEvent.coordinate);
+setPos(e.nativeEvent.coordinate)
+}
 
 return(isLoading?<View style={styles.container}>
 <Text>loading...</Text></View>
@@ -49,7 +54,16 @@ return(isLoading?<View style={styles.container}>
     latitudeDelta:0.005,
     longitudeDelta:0.005
   }}
-    />
+    onPress={handlePress}
+    showsMyLocationButton={true}
+    showsPointsOfInterest={true}
+    showsUserLocation={true}>
+      <Marker coordinate={pos}/>
+    </MapView>
+
+
+
+
     <Button
     style={styles.button}
 onPress={text}
