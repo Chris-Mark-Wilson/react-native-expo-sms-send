@@ -40,8 +40,8 @@ useEffect(()=>{
       <Text>latitude:{lat} longitude{long}</Text> 
       <MapView style={styles.map}
       Region={{
-        latitude: {lat},
-        longitude: {long},
+        latitude: lat,
+        longitude: long,
        
       }}/>
       <Button
@@ -66,7 +66,7 @@ flex:1,
 
   },
   button:{
-   
+   height:'10%',
     justifySelf:"flex-end"
   },
   map: {
