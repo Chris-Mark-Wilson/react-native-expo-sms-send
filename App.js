@@ -1,49 +1,39 @@
 import MapView from 'react-native-maps';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,Button } from 'react-native';
-import { getLocation } from './components/getLocation';
+import { getLocation } from './utils/getLocation';
 import { useEffect, useState } from 'react';
-import * as SMS from "expo-sms";
+import {text} from './utils/sendText'
 export default function App() {
-  const numbersArray=["+447597852695"]
+
   const[lat,setLat]=useState(null)
   const[long,setLong]=useState(null)
+  let regionObject={};
+
 useEffect(()=>{
   getLocation()
   .then(({latitude,longitude})=>{
-    console.log(latitude,longitude)
+    console.log(latitude,longitude,"lat long")
     setLat(latitude)
     setLong(longitude)
+
+regionObject.latitude=latitude;
+regionObject.longitude=longitude;
+regionObject.latitudeDelta=0;
+regionObject.longitudeDelta=0;
+console.log(regionObject,"regionObject")
   })
 },[lat,long])
-  const text = () => {
-    return SMS.isAvailableAsync()
-    .then((isAvailable) => {
-      if (isAvailable) {
-        // do your SMS stuff here
-        return SMS.sendSMSAsync(numbersArray, `https://www.google.com/maps/@${lat},${long},16z?entry=ttuu`)
-      }else{
-          console.log("not available")
-      }
-  })
-  .catch(err=>{
-      console.log(err,"err in block")
-      console.log("catch block error")
-  })
-  }  
-  
 
   return (
     <View style={styles.container}>
     
       <StatusBar style="auto" />
       <Text>latitude:{lat} longitude{long}</Text> 
+      {(regionObject.latitude&&regionObject.longitude)??
       <MapView style={styles.map}
-      Region={{
-        latitude: lat,
-        longitude: long,
-       
-      }}/>
+      // initialRegion={regionObject}
+      />}
       <Button
       style={styles.button}
   onPress={text}
