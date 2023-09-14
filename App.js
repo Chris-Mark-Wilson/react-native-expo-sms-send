@@ -9,40 +9,46 @@ export default function App() {
   const[lat,setLat]=useState(null)
   const[long,setLong]=useState(null)
   let regionObject={};
+  const[isLoading,setIsLoading]=useState(true)
 
 useEffect(()=>{
+  setIsLoading(true)
   getLocation()
   .then(({latitude,longitude})=>{
     console.log(latitude,longitude,"lat long")
     setLat(latitude)
     setLong(longitude)
-
-regionObject.latitude=latitude;
-regionObject.longitude=longitude;
-regionObject.latitudeDelta=0;
-regionObject.longitudeDelta=0;
-console.log(regionObject,"regionObject")
+setIsLoading(false)
   })
 },[lat,long])
 
-  return (
-    <View style={styles.container}>
+
+
+return(isLoading?<View style={styles.container}>
+<Text>loading...</Text></View>
+: <View style={styles.container}>
     
-      <StatusBar style="auto" />
-      <Text>latitude:{lat} longitude{long}</Text> 
-      {(regionObject.latitude&&regionObject.longitude)??
-      <MapView style={styles.map}
-      // initialRegion={regionObject}
-      />}
-      <Button
-      style={styles.button}
-  onPress={text}
-  title="send text"
-  color="#841584"
-  accessibilityLabel="Learn more about this purple button"
+    <StatusBar style="auto" />
+    <Text>latitude:{lat} longitude{long}</Text> 
+
+    <MapView style={styles.map}
+  initialRegion={{
+    latitude:lat,
+    longitude:long,
+    latitudeDelta:0.005,
+    longitudeDelta:0.005
+  }}
+    />
+    <Button
+    style={styles.button}
+onPress={text}
+title="send text"
+color="#841584"
+accessibilityLabel="Learn more about this purple button"
 /> 
-   </View>
-  );
+ </View>)
+
+
 }
 
 const styles = StyleSheet.create({
