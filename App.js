@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { getLocation } from "./utils/getLocation";
 import { useEffect, useState } from "react";
-import { text } from "./utils/sendText";
+
 import { Marker } from "react-native-maps";
 export default function App() {
   const [lat, setLat] = useState(52.57559667266577);
@@ -39,8 +39,17 @@ export default function App() {
   })
   }  
 
+  useEffect(()=>{
+    setTimeout(()=>{
+      setTimer((timer)=>{
+        return timer+1
+      })
+      console.log(timer)
+    },10000)
+  },[timer])
+
   useEffect(() => {
-    setIsLoading(true);
+    
     getLocation()
     .then(({ latitude, longitude }) => {
       console.log(latitude, longitude, "lat long");
@@ -48,18 +57,19 @@ export default function App() {
       setLong(longitude);
       setRegion((region) => {
         return {
-          latitude: lat,
-          longitude: long,
+          latitude: latitude,
+          longitude: longitude,
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
         };
       });
-      setIsLoading(false);
+      console.log("set region")
     })
     .catch(()=>{
-
+console.log("in catch block appjs")
     });
-  }, [lat, long]);
+    console.log("in use effect")
+  }, [timer]);
 
 
   
