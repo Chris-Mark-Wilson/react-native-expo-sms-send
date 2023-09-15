@@ -16,4 +16,4 @@ const text = () => {
       console.log(err,"err in block")
       console.log("catch block error")
   })
-n  }  
+  }  
