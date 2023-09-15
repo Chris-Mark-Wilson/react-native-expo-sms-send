@@ -20,7 +20,8 @@ return  Location.requestForegroundPermissionsAsync()
 return ({latitude,longitude})
   })
 .catch(err=>{
-    console.log(err)
+  console.log(err)
+  return ({latitude:52.57559667266577,longitude:-0.25841876864433294})
 })
 }
 

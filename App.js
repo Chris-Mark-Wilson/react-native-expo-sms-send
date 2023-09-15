@@ -6,31 +6,42 @@ import { useEffect, useState } from "react";
 import { text } from "./utils/sendText";
 import { Marker } from "react-native-maps";
 export default function App() {
-  const [lat, setLat] = useState(null);
-  const [long, setLong] = useState(null);
+  const [lat, setLat] = useState(52.57559667266577);
+  const [long, setLong] = useState(-0.25841876864433294);
   let regionObject = {};
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [pos, setPos] = useState({
     latitude: 52.57559667266577,
     longitude: -0.25841876864433294,
   });
 
-  useEffect(() => {
-    setIsLoading(true);
-    getLocation().then(({ latitude, longitude }) => {
-      console.log(latitude, longitude, "lat long");
-      setLat(latitude);
-      setLong(longitude);
-      setIsLoading(false);
-    });
-  }, [lat, long]);
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   getLocation()
+  //   .then(({ latitude, longitude }) => {
+  //     console.log(latitude, longitude, "lat long");
+  //     setLat(latitude);
+  //     setLong(longitude);
+  //     setIsLoading(false);
+  //   })
+  //   .catch(()=>{
+
+  //   });
+  // }, [lat, long]);
 
   useEffect(() => {
     setTimeout(() => {
+      setIsLoading(true)
       getLocation().then(({ latitude, longitude }) => {
         console.log(latitude, longitude, "lat long");
-        setLat(latitude);
-        setLong(longitude);
+        setLat((lat)=>{
+          return lat+0.0001
+        });
+        setLong((long)=>{
+          return long+0.0001
+        });
+        console.log(lat,long)
+        setIsLoading(false)
       }, 10000);
     });
   });
@@ -54,7 +65,7 @@ export default function App() {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: lat,
+          latitude:lat ,
           longitude: long,
           latitudeDelta: 0.005,
           longitudeDelta: 0.005,
