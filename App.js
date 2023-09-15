@@ -9,6 +9,7 @@ import { Marker } from "react-native-maps";
 export default function App() {
   const [lat, setLat] = useState(52.57559667266577);
   const [long, setLong] = useState(-0.25841876864433294);
+  const[timer,setTimer]=useState(0)
   const [region, setRegion] = useState({
     latitude: lat,
     longitude: long,
@@ -38,31 +39,13 @@ export default function App() {
   })
   }  
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   getLocation()
-  //   .then(({ latitude, longitude }) => {
-  //     console.log(latitude, longitude, "lat long");
-  //     setLat(latitude);
-  //     setLong(longitude);
-  //     setIsLoading(false);
-  //   })
-  //   .catch(()=>{
-
-  //   });
-  // }, [lat, long]);
-
   useEffect(() => {
-    setTimeout(() => {
-      // setIsLoading(true);
-      setLat((lat) => {
-        return lat + 0.00001;
-      });
-      setLong((long) => {
-        return long + 0.00001;
-      });
-      console.log(lat, long);
-      setIsLoading(false);
+    setIsLoading(true);
+    getLocation()
+    .then(({ latitude, longitude }) => {
+      console.log(latitude, longitude, "lat long");
+      setLat(latitude);
+      setLong(longitude);
       setRegion((region) => {
         return {
           latitude: lat,
@@ -71,9 +54,16 @@ export default function App() {
           longitudeDelta: 0.005,
         };
       });
-      console.log(region)
-    }, 1000);
-  },[region]);
+      setIsLoading(false);
+    })
+    .catch(()=>{
+
+    });
+  }, [lat, long]);
+
+
+  
+
 
   const handlePress = (e) => {
     console.log(e.nativeEvent.coordinate);
