@@ -8,7 +8,12 @@ import { Marker } from "react-native-maps";
 export default function App() {
   const [lat, setLat] = useState(52.57559667266577);
   const [long, setLong] = useState(-0.25841876864433294);
-  let regionObject = {};
+  const [region, setRegion] = useState({
+    latitude: lat,
+    longitude: long,
+    latitudeDelta: 0.005,
+    longitudeDelta: 0.005,
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [pos, setPos] = useState({
     latitude: 52.57559667266577,
@@ -31,20 +36,26 @@ export default function App() {
 
   useEffect(() => {
     setTimeout(() => {
-      setIsLoading(true)
-      getLocation().then(({ latitude, longitude }) => {
-        console.log(latitude, longitude, "lat long");
-        setLat((lat)=>{
-          return lat+0.0001
-        });
-        setLong((long)=>{
-          return long+0.0001
-        });
-        console.log(lat,long)
-        setIsLoading(false)
-      }, 10000);
-    });
-  });
+      // setIsLoading(true);
+      setLat((lat) => {
+        return lat + 0.00001;
+      });
+      setLong((long) => {
+        return long + 0.00001;
+      });
+      console.log(lat, long);
+      setIsLoading(false);
+      setRegion((region) => {
+        return {
+          latitude: lat,
+          longitude: long,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        };
+      });
+      console.log(region)
+    }, 1000);
+  },[region]);
 
   const handlePress = (e) => {
     console.log(e.nativeEvent.coordinate);
@@ -64,11 +75,16 @@ export default function App() {
 
       <MapView
         style={styles.map}
-        initialRegion={{
-          latitude:lat ,
-          longitude: long,
-          latitudeDelta: 0.005,
-          longitudeDelta: 0.005,
+        region={region}
+        onRegionChange={() => {
+          setRegion((region) => {
+            return {
+              latitude: lat,
+              longitude: long,
+              latitudeDelta: 0.005,
+              longitudeDelta: 0.005,
+            };
+          });
         }}
         onPress={handlePress}
         showsMyLocationButton={true}
