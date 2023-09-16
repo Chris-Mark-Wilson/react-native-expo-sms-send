@@ -11,6 +11,69 @@ import { useEffect, useState } from "react";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import { Marker } from "react-native-maps";
 export default function App() {
+
+  const Drawer = createDrawerNavigator();
+
+  return (<>
+       <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+        </>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+flex:1
+
+ 
+
+  },
+  button: {
+    display:"flex",
+    justifyContent:"center",
+    
+ height:"10",padding:0
+  },
+  map: {top:40,
+   
+    
+    width: "100%",
+    height: "80%",
+  },
+  pressable:{
+
+    postion:"absolute", 
+    left:"40%",
+    top:"10%",
+    backgroundColor:"black",
+    padding:"2%",
+    justifyContent:"center",
+    margin:"auto",
+    alignContent:"center",
+    borderWidth:2,
+    borderRadius:10
+  },
+  text:{
+    position:"absolute",
+    top:"15%",
+    left:"10%",
+    justifyContent:"center",
+    backgroundColor:"grey",
+    color:"white",
+  }
+});
+function NotificationsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    </View>
+  );
+}
+function HomeScreen({ navigation }) {
   const [lat, setLat] = useState(52.57559667266577);
   const [long, setLong] = useState(-0.25841876864433294);
   const [timer, setTimer] = useState(0);
@@ -28,7 +91,6 @@ export default function App() {
   const[buttonText,setButtonText]=useState("Press me")
 
 
-const Drawer = createDrawerNavigator();
 
 
   const text = () => {
@@ -91,131 +153,70 @@ const Drawer = createDrawerNavigator();
     buttonText==="Press me"?setButtonText("and again"):setButtonText("Press me")
 
   }
-
   return isLoading ? (
     <View style={styles.container}>
        
       <Text>loading...</Text>
     </View>
-  ) : (<>
-       <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+  ) : (
     <View style={styles.container}>
-  <View style={{top:30,display:"flex",flexDirection:"row",height:40,justifyContent:"space-around",backgroundColor:"grey",padding:"1%"}}>
-    <Button style={styles.button} title="nav" />
-    <Button style={styles.button} title="nav2"/>
-    <Button style={styles.button} title="nav3"/>
-   
-  </View>
-  
-
-      <MapView
-        showsMyLocationButton={true}
-        provider={PROVIDER_GOOGLE}
-        style={styles.map}
-        region={region}
-        onRegionChange={() => {
-          setRegion((region) => {
-            return {
-              latitude: lat,
-              longitude: long,
-              latitudeDelta: 0.005,
-              longitudeDelta: 0.005,
-            };
-          });
-        }}
-        onPress={handlePress}
-        showsPointsOfInterest={true}
-        showsUserLocation={true}
-      >
-      <Marker coordinate={pos} />
-      </MapView>
-      {/* <TextInput style={{position:"absolute",top:"30%"}}></TextInput> */}
-      <Pressable style={{postion:"absolute", 
-    left:"30%",
-    top:"-10%",
-    backgroundColor:"grey",
-    padding:"2%",
-  width:100,
-    alignContent:"center",
-    justifyContent:"center",
-    borderRadius:10
-}} onPress={pressPressable}>
-      <Text style={{color:"black",backgroundColor:"white",alignContent:"center",paddingHorizontal:"2%",borderRadius:5}} >{buttonText}</Text>
-      </Pressable>
-      <Text style={styles.text}>
-        latitude:{lat}    longitude{long}
-      </Text> 
-       <Button
-        style={styles.button}
-        onPress={text}
-        title="send text"
-        color="grey"  
-  />
-        </View>
-        </>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-flex:1
-
- 
-
-  },
-  button: {
-    display:"flex",
-    justifyContent:"center",
-    
- height:"10",padding:0
-  },
-  map: {top:40,
-   
-    
-    width: "100%",
-    height: "80%",
-  },
-  pressable:{
-
-    postion:"absolute", 
-    left:"40%",
-    top:"10%",
-    backgroundColor:"black",
-    padding:"2%",
-    justifyContent:"center",
-    margin:"auto",
-    alignContent:"center",
-    borderWidth:2,
-    borderRadius:10
-  },
-  text:{
-    position:"absolute",
-    top:"15%",
-    left:"10%",
-    justifyContent:"center",
-    backgroundColor:"grey",
-    color:"white",
-  }
-});
-function NotificationsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    <View style={{top:30,display:"flex",flexDirection:"row",height:40,justifyContent:"space-around",backgroundColor:"grey",padding:"1%"}}>
+      <Button style={styles.button} title="nav" />
+      <Button style={styles.button} title="nav2"/>
+      <Button style={styles.button} title="nav3"/>
+     
     </View>
-  );
-}
-function HomeScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    
+  
+        <MapView
+          showsMyLocationButton={true}
+          provider={PROVIDER_GOOGLE}
+          style={styles.map}
+          region={region}
+          onRegionChange={() => {
+            setRegion((region) => {
+              return {
+                latitude: lat,
+                longitude: long,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+              };
+            });
+          }}
+          onPress={handlePress}
+          showsPointsOfInterest={true}
+          showsUserLocation={true}
+        >
+        <Marker coordinate={pos} />
+        </MapView>
+        {/* <TextInput style={{position:"absolute",top:"30%"}}></TextInput> */}
+        <Pressable style={{postion:"absolute", 
+      left:"30%",
+      top:"-10%",
+      backgroundColor:"grey",
+      padding:"2%",
+    width:100,
+      alignContent:"center",
+      justifyContent:"center",
+      borderRadius:10
+  }} onPress={pressPressable}>
+        <Text style={{color:"black",backgroundColor:"white",alignContent:"center",paddingHorizontal:"2%",borderRadius:5}} >{buttonText}</Text>
+        </Pressable>
+        <Text style={styles.text}>
+          latitude:{lat}    longitude{long}
+        </Text> 
+         <Button
+          style={styles.button}
+          onPress={text}
+          title="send text"
+          color="grey"  
+    />
       <Button
         onPress={() => navigation.navigate('Notifications')}
         title="Go to notifications"
       />
-    </View>
+          </View>
+   
+
   );
 }
