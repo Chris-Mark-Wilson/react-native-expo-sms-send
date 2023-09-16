@@ -1,5 +1,6 @@
-
-
+import 'react-native-gesture-handler';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
 import MapView from "react-native-maps";
 import * as SMS from "expo-sms";
 import * as NavigationBar from 'expo-navigation-bar';
@@ -25,6 +26,9 @@ export default function App() {
     longitude: -0.25841876864433294,
   });
   const[buttonText,setButtonText]=useState("Press me")
+
+
+const Drawer = createDrawerNavigator();
 
 
   const text = () => {
@@ -90,12 +94,19 @@ export default function App() {
 
   return isLoading ? (
     <View style={styles.container}>
+       
       <Text>loading...</Text>
     </View>
-  ) : (
+  ) : (<>
+       <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
     <View style={styles.container}>
   <View style={{top:30,display:"flex",flexDirection:"row",height:40,justifyContent:"space-around",backgroundColor:"grey",padding:"1%"}}>
-    <Button style={styles.button} title="nav1"/>
+    <Button style={styles.button} title="nav" />
     <Button style={styles.button} title="nav2"/>
     <Button style={styles.button} title="nav3"/>
    
@@ -146,6 +157,7 @@ export default function App() {
         color="grey"  
   />
         </View>
+        </>
   );
 }
 
@@ -190,3 +202,20 @@ flex:1
     color:"white",
   }
 });
+function NotificationsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    </View>
+  );
+}
+function HomeScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button
+        onPress={() => navigation.navigate('Notifications')}
+        title="Go to notifications"
+      />
+    </View>
+  );
+}
