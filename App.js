@@ -3,9 +3,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import MapView from "react-native-maps";
 import * as SMS from "expo-sms";
-import * as NavigationBar from 'expo-navigation-bar';
+
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button ,Pressable,TextInput} from "react-native";
+import { StyleSheet, Text, View, Button ,Pressable,TextInput,FlatList} from "react-native";
 import { getLocation } from "./utils/getLocation";
 import { useEffect, useState } from "react";
 import { PROVIDER_GOOGLE } from "react-native-maps";
@@ -18,7 +18,7 @@ export default function App() {
        <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
         <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+        <Drawer.Screen name="Myfreinds" component={Myfreinds} />
       </Drawer.Navigator>
     </NavigationContainer>
         </>
@@ -66,10 +66,24 @@ flex:1
     color:"white",
   }
 });
-function NotificationsScreen({ navigation }) {
+function Myfreinds({ navigation }) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
+    <View style={styles.container}>
+      <FlatList
+        data={[
+          {key: 'Devin'},
+          {key: 'Dan'},
+          {key: 'Dominic'},
+          {key: 'Jackson'},
+          {key: 'James'},
+          {key: 'Joel'},
+          {key: 'John'},
+          {key: 'Jillian'},
+          {key: 'Jimmy'},
+          {key: 'Julie'},
+        ]}
+        renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
+      />
     </View>
   );
 }
@@ -160,13 +174,14 @@ function HomeScreen({ navigation }) {
     </View>
   ) : (
     <View style={styles.container}>
-    <View style={{top:30,display:"flex",flexDirection:"row",height:40,justifyContent:"space-around",backgroundColor:"grey",padding:"1%"}}>
-      <Button style={styles.button} title="nav" />
-      <Button style={styles.button} title="nav2"/>
-      <Button style={styles.button} title="nav3"/>
+
+<StatusBar
+        animated={true}
+        backgroundColor="#61dafb"
+       
      
-    </View>
-    
+      
+      />
   
         <MapView
           showsMyLocationButton={true}
@@ -212,8 +227,8 @@ function HomeScreen({ navigation }) {
           color="grey"  
     />
       <Button
-        onPress={() => navigation.navigate('Notifications')}
-        title="Go to notifications"
+        onPress={() => navigation.navigate('My friends')}
+        title="My friends"
       />
           </View>
    
