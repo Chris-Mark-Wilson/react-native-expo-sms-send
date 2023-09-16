@@ -4,7 +4,8 @@ import * as Location from 'expo-location';
    
 
 export const getLocation=()=>{
-  console.log("in get location")
+
+
 return  Location.requestForegroundPermissionsAsync()
  .then(({status})=>{
  
@@ -16,11 +17,11 @@ return  Location.requestForegroundPermissionsAsync()
     return status;
 })
 .then((status)=>{
-  console.log(status,"<=status")
+
   return  Location.getCurrentPositionAsync({});
   })
   .then(({coords:{latitude,longitude}})=>{
-    console.log("returning")
+
 return ({latitude,longitude})
   })
 .catch(err=>{
