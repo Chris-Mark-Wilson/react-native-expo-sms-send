@@ -1,3 +1,6 @@
+ // require('dotenv').config({path: `${__dirname}/../.env.development`})
+
+
 import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
